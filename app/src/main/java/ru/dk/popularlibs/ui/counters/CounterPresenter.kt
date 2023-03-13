@@ -1,10 +1,11 @@
-package ru.dk.popularlibs
+package ru.dk.popularlibs.ui.counters
 
 import moxy.MvpPresenter
+import ru.dk.popularlibs.domain.CountersModel
 
-class Presenter() : MvpPresenter<CountersView>() {
+class CounterPresenter() : MvpPresenter<CountersView>() {
 
-    val model = CountersModel()
+    private val model = CountersModel()
 
     fun getFirstCounter() = model.getCounter(0)
     fun getSecondCounter() = model.getCounter(1)

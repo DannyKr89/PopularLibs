@@ -1,4 +1,4 @@
-package ru.dk.popularlibs
+package ru.dk.popularlibs.ui.counters
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import ru.dk.popularlibs.App
 import ru.dk.popularlibs.databinding.FragmentCounterBinding
 
 class CounterFragment : MvpAppCompatFragment(), CountersView {
 
     private var _binding: FragmentCounterBinding? = null
     private val binding: FragmentCounterBinding get() = _binding!!
-    private val presenter by moxyPresenter { Presenter() }
+    private val presenter by moxyPresenter { CounterPresenter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +40,12 @@ class CounterFragment : MvpAppCompatFragment(), CountersView {
             btnFirstCounter.text = presenter.getFirstCounter().toString()
             btnSecondCounter.text = presenter.getSecondCounter().toString()
             btnThirdCounter.text = presenter.getThirdCounter().toString()
+            btnUsers.setOnClickListener { App.INSTANCE.navigation.navigateToUsers() }
         }
     }
 
     companion object {
-        fun newInstance() =
-            CounterFragment()
+        fun newInstance() = CounterFragment()
     }
 
     override fun onDestroyView() {

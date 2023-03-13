@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/normal16"
-    tools:context=".CounterFragment">
+    tools:context=".ui.counters.CounterFragment">
 
 
     <TextView
@@ -45,4 +45,10 @@
         android:layout_height="wrap_content"
         tools:text="0" />
 
+    <Button
+        android:id="@+id/btn_users"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/normal16"
+        android:text="@string/github_users" />
 </LinearLayout>
