@@ -1,16 +1,15 @@
 package ru.dk.popularlibs
 
-import android.view.View
+import moxy.MvpView
+import moxy.viewstate.strategy.alias.AddToEndSingle
 
-interface CountersContract {
+interface CountersView : MvpView {
+    @AddToEndSingle
+    fun setTextFirstCounter(text: String)
 
-    interface CountersView {
-        fun setText(view: View, text: String)
-    }
+    @AddToEndSingle
+    fun setTextSecondCounter(text: String)
 
-    interface CountersPresenter {
-        fun attach(countersView: CountersView)
-        fun detach()
-        fun counterClick(view: View, counter: Int)
-    }
+    @AddToEndSingle
+    fun setTextThirdCounter(text: String)
 }

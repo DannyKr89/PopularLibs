@@ -1,24 +1,30 @@
 package ru.dk.popularlibs
 
-import android.view.View
+import moxy.MvpPresenter
 
-class Presenter() : CountersContract.CountersPresenter {
-
-    private var _countersView: CountersContract.CountersView? = null
+class Presenter() : MvpPresenter<CountersView>() {
 
     val model = CountersModel()
 
-    override fun attach(countersView: CountersContract.CountersView) {
-        _countersView = countersView
+    fun getFirstCounter() = model.getCounter(0)
+    fun getSecondCounter() = model.getCounter(1)
+    fun getThirdCounter() = model.getCounter(2)
+
+
+    fun firstCounterClick() {
+        val nextValue = model.increaseCounter(0)
+        viewState.setTextFirstCounter(nextValue.toString())
     }
 
-    override fun detach() {
-        _countersView = null
+    fun secondCounterClick() {
+        val nextValue = model.increaseCounter(1)
+        viewState.setTextSecondCounter(nextValue.toString())
     }
 
-    override fun counterClick(view: View, counter: Int) {
-        val nextValue = model.increaseCounter(counter)
-        _countersView?.setText(view, nextValue.toString())
+    fun thirdCounterClick() {
+        val nextValue = model.increaseCounter(2)
+        viewState.setTextThirdCounter(nextValue.toString())
     }
+
 
 }

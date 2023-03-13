@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.fragment.app.Fragment
+import moxy.MvpAppCompatFragment
+import moxy.ktx.moxyPresenter
 import ru.dk.popularlibs.databinding.FragmentCounterBinding
 
-class CounterFragment : Fragment(), CountersContract.CountersView {
+class CounterFragment : MvpAppCompatFragment(), CountersView {
 
     private var _binding: FragmentCounterBinding? = null
     private val binding: FragmentCounterBinding get() = _binding!!
-    private val presenter = Presenter()
+    private val presenter by moxyPresenter { Presenter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,35 +24,22 @@ class CounterFragment : Fragment(), CountersContract.CountersView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.attach(this)
+        initViews()
 
         with(binding) {
-            btnFirstCounter.setOnClickListener { presenter.counterClick(it, 0) }
-            btnSecondCounter.setOnClickListener { presenter.counterClick(it, 1) }
-            btnThirdCounter.setOnClickListener { presenter.counterClick(it, 2) }
+            btnFirstCounter.setOnClickListener { presenter.firstCounterClick() }
+            btnSecondCounter.setOnClickListener { presenter.secondCounterClick() }
+            btnThirdCounter.setOnClickListener { presenter.thirdCounterClick() }
         }
     }
 
     private fun initViews() {
 
         with(binding) {
-            btnFirstCounter.text = presenter.model.getCounters()[0].toString()
-            btnSecondCounter.text = presenter.model.getCounters()[1].toString()
-            btnThirdCounter.text = presenter.model.getCounters()[2].toString()
+            btnFirstCounter.text = presenter.getFirstCounter().toString()
+            btnSecondCounter.text = presenter.getSecondCounter().toString()
+            btnThirdCounter.text = presenter.getThirdCounter().toString()
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putIntArray("counters", presenter.model.getCounters().toIntArray())
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        savedInstanceState?.getIntArray("counters").let { array ->
-            array?.let { it -> presenter.model.setCounters(it.toList()) }
-        }
-        initViews()
     }
 
     companion object {
@@ -62,13 +49,18 @@ class CounterFragment : Fragment(), CountersContract.CountersView {
 
     override fun onDestroyView() {
         _binding = null
-        presenter.detach()
         super.onDestroyView()
     }
 
-    override fun setText(view: View, text: String) {
-        if (view is Button) {
-            view.text = text
-        }
+    override fun setTextFirstCounter(text: String) {
+        binding.btnFirstCounter.text = text
+    }
+
+    override fun setTextSecondCounter(text: String) {
+        binding.btnSecondCounter.text = text
+    }
+
+    override fun setTextThirdCounter(text: String) {
+        binding.btnThirdCounter.text = text
     }
 }
