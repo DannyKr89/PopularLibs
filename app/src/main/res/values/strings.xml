@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">PopularLibs</string>
+    <string name="first_counter">Счетчик 1</string>
+    <string name="second_counter">Счетчик 2</string>
+    <string name="third_counter">Счетчик 3</string>
 </resources>
