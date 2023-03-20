@@ -5,4 +5,5 @@
     <string name="third_counter">Счетчик 3</string>
     <string name="github_users">Список пользователей Гитхаб</string>
     <string name="btn_refresh">Обновить</string>
+    <string name="forks">Вилки</string>
 </resources>
