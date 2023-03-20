@@ -1,6 +1,7 @@
 package ru.dk.popularlibs.ui.users
 
 import android.annotation.SuppressLint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import moxy.MvpPresenter
 import ru.dk.popularlibs.domain.GithubUsersRepo
@@ -12,6 +13,7 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo) : MvpPresenter<User
     fun loadData() {
         viewState.showProgressbar(true)
         usersRepo.getUsers()
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {
                     viewState.showUsers(it)
@@ -19,6 +21,7 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo) : MvpPresenter<User
                 },
                 onError = {
                     viewState.showError(it)
+                    viewState.showUsers(listOf())
                     viewState.showProgressbar(false)
                 }
             )
