@@ -11,6 +11,7 @@ import ru.dk.popularlibs.domain.cache.IUserCache
 import ru.dk.popularlibs.domain.cache.RoomRepositoriesCache
 import ru.dk.popularlibs.domain.cache.RoomUserCache
 import ru.dk.popularlibs.domain.cicerone.CiceronePresenter
+import ru.dk.popularlibs.domain.network.INetworkStatus
 import ru.dk.popularlibs.domain.network.NetworkStatus
 import ru.dk.popularlibs.domain.retrofit.UsersGitHubAPI
 import ru.dk.popularlibs.domain.room.UserDatabase
@@ -23,10 +24,10 @@ class App : Application() {
     val router get() = cicerone.router
     val navigatorHolder get() = cicerone.getNavigatorHolder()
     val navigation get() = CiceronePresenter()
-    private val roomUserCache: IUserCache by lazy { RoomUserCache() }
-    private val roomRepositoriesCache: IRepositoriesCache by lazy { RoomRepositoriesCache() }
+    private val roomUserCache: IUserCache by lazy { RoomUserCache(getDB()) }
+    private val roomRepositoriesCache: IRepositoriesCache by lazy { RoomRepositoriesCache(getDB()) }
     private val api = UsersGitHubAPI.create()
-    private val networkStatus = NetworkStatus()
+    private lateinit var networkStatus: INetworkStatus
 
     val usersRepo: GithubUsersRepo by lazy {
         GitHubUsersRepoImpl(
@@ -37,6 +38,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
+        networkStatus = NetworkStatus(INSTANCE)
     }
 
     companion object {
@@ -51,7 +53,7 @@ class App : Application() {
                     if (dbUsers == null) {
 
                         dbUsers = Room.databaseBuilder(
-                            INSTANCE.applicationContext, UserDatabase::class.java, DB_NAME
+                            INSTANCE, UserDatabase::class.java, DB_NAME
                         ).build()
                     }
                 }

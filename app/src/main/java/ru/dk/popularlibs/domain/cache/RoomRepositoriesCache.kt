@@ -1,14 +1,13 @@
 package ru.dk.popularlibs.domain.cache
 
-import ru.dk.popularlibs.App
 import ru.dk.popularlibs.domain.GithubUser
 import ru.dk.popularlibs.domain.GithubUserReposItem
 import ru.dk.popularlibs.domain.room.RoomGithubRepository
 import ru.dk.popularlibs.domain.room.RoomGithubUser
+import ru.dk.popularlibs.domain.room.UserDatabase
 
-class RoomRepositoriesCache : IRepositoriesCache {
+class RoomRepositoriesCache(private val db: UserDatabase) : IRepositoriesCache {
 
-    private val db = App.getDB()
 
     override fun cacheRepositories(user: GithubUser, repositories: List<GithubUserReposItem>) {
         val roomUser = user.login.let {
@@ -30,19 +29,19 @@ class RoomRepositoriesCache : IRepositoriesCache {
     ): List<RoomGithubRepository> {
         return repositories.map {
             RoomGithubRepository(
-                userId = roomUser.id ?: 0,
-                createdAt = it.createdAt ?: "",
-                defaultBranch = it.defaultBranch ?: "",
+                userId = roomUser.id,
+                createdAt = it.createdAt,
+                defaultBranch = it.defaultBranch,
                 description = it.description ?: "",
-                forks = it.forks ?: 0,
+                forks = it.forks,
                 homepage = it.homepage ?: "",
-                htmlUrl = it.htmlUrl ?: "",
+                htmlUrl = it.htmlUrl,
                 language = it.language ?: "",
-                name = it.name ?: "",
-                size = it.size ?: 0,
-                updatedAt = it.updatedAt ?: "",
-                visibility = it.visibility ?: "",
-                watchers = it.watchers ?: 0,
+                name = it.name,
+                size = it.size,
+                updatedAt = it.updatedAt,
+                visibility = it.visibility,
+                watchers = it.watchers,
                 id = it.id
             )
         }

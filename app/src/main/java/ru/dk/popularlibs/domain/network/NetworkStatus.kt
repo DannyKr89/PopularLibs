@@ -7,11 +7,11 @@ import android.net.Network
 import android.net.NetworkRequest
 import android.widget.Toast
 import io.reactivex.rxjava3.subjects.BehaviorSubject
-import ru.dk.popularlibs.App
 
-class NetworkStatus() : INetworkStatus {
-    private val context = App.INSTANCE.applicationContext
-    private val status = BehaviorSubject.create<Boolean>()
+class NetworkStatus(
+    private val context: Context,
+    private val status: BehaviorSubject<Boolean> = BehaviorSubject.create<Boolean>()
+) : INetworkStatus {
 
     init {
         status.onNext(false)

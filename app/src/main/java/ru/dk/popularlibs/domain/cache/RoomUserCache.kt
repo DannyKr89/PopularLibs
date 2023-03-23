@@ -1,12 +1,10 @@
 package ru.dk.popularlibs.domain.cache
 
-import ru.dk.popularlibs.App
 import ru.dk.popularlibs.domain.GithubUser
 import ru.dk.popularlibs.domain.room.RoomGithubUser
+import ru.dk.popularlibs.domain.room.UserDatabase
 
-class RoomUserCache : IUserCache {
-
-    private val db = App.getDB()
+class RoomUserCache(private val db: UserDatabase) : IUserCache {
 
     override fun cacheUsers(users: List<GithubUser>) {
         val roomUsers = convertUsersToRoomUsers(users)

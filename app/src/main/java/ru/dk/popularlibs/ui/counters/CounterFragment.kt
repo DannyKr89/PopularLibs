@@ -8,12 +8,13 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.dk.popularlibs.App
 import ru.dk.popularlibs.databinding.FragmentCounterBinding
+import ru.dk.popularlibs.domain.CountersModel
 
 class CounterFragment : MvpAppCompatFragment(), CountersView {
 
     private var _binding: FragmentCounterBinding? = null
     private val binding: FragmentCounterBinding get() = _binding!!
-    private val presenter by moxyPresenter { CounterPresenter() }
+    private val presenter by moxyPresenter { CounterPresenter(CountersModel()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
