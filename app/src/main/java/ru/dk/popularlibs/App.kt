@@ -6,6 +6,10 @@ import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import ru.dk.popularlibs.data.GitHubUsersRepoImpl
 import ru.dk.popularlibs.domain.GithubUsersRepo
+import ru.dk.popularlibs.domain.cache.IRepositoriesCache
+import ru.dk.popularlibs.domain.cache.IUserCache
+import ru.dk.popularlibs.domain.cache.RoomRepositoriesCache
+import ru.dk.popularlibs.domain.cache.RoomUserCache
 import ru.dk.popularlibs.domain.cicerone.CiceronePresenter
 import ru.dk.popularlibs.domain.room.UserDatabase
 
@@ -17,8 +21,15 @@ class App : Application() {
     val router get() = cicerone.router
     val navigatorHolder get() = cicerone.getNavigatorHolder()
     val navigation get() = CiceronePresenter()
+    private val roomUserCache: IUserCache by lazy { RoomUserCache() }
+    private val roomRepositoriesCache: IRepositoriesCache by lazy { RoomRepositoriesCache() }
 
-    val usersRepo: GithubUsersRepo by lazy { GitHubUsersRepoImpl() }
+    val usersRepo: GithubUsersRepo by lazy {
+        GitHubUsersRepoImpl(
+            roomUserCache,
+            roomRepositoriesCache
+        )
+    }
 
     override fun onCreate() {
         super.onCreate()
