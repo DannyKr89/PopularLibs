@@ -21,5 +21,6 @@ data class GithubUserReposItem(
     @SerializedName("updated_at")
     val updatedAt: String,
     val visibility: String,
-    val watchers: Int
+    val watchers: Int,
+    val id: Int
 ) : Parcelable

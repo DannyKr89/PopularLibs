@@ -21,7 +21,6 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo) : MvpPresenter<User
                 },
                 onError = {
                     viewState.showError(it)
-                    viewState.showUsers(listOf())
                     viewState.showProgressbar(false)
                 }
             )
