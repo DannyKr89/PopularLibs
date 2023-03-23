@@ -6,7 +6,13 @@ import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import ru.dk.popularlibs.data.GitHubUsersRepoImpl
 import ru.dk.popularlibs.domain.GithubUsersRepo
+import ru.dk.popularlibs.domain.cache.IRepositoriesCache
+import ru.dk.popularlibs.domain.cache.IUserCache
+import ru.dk.popularlibs.domain.cache.RoomRepositoriesCache
+import ru.dk.popularlibs.domain.cache.RoomUserCache
 import ru.dk.popularlibs.domain.cicerone.CiceronePresenter
+import ru.dk.popularlibs.domain.network.NetworkStatus
+import ru.dk.popularlibs.domain.retrofit.UsersGitHubAPI
 import ru.dk.popularlibs.domain.room.UserDatabase
 
 class App : Application() {
@@ -17,8 +23,16 @@ class App : Application() {
     val router get() = cicerone.router
     val navigatorHolder get() = cicerone.getNavigatorHolder()
     val navigation get() = CiceronePresenter()
+    private val roomUserCache: IUserCache by lazy { RoomUserCache() }
+    private val roomRepositoriesCache: IRepositoriesCache by lazy { RoomRepositoriesCache() }
+    private val api = UsersGitHubAPI.create()
+    private val networkStatus = NetworkStatus()
 
-    val usersRepo: GithubUsersRepo by lazy { GitHubUsersRepoImpl() }
+    val usersRepo: GithubUsersRepo by lazy {
+        GitHubUsersRepoImpl(
+            api, roomUserCache, roomRepositoriesCache, networkStatus
+        )
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -37,11 +51,8 @@ class App : Application() {
                     if (dbUsers == null) {
 
                         dbUsers = Room.databaseBuilder(
-                            INSTANCE.applicationContext,
-                            UserDatabase::class.java,
-                            DB_NAME
-                        )
-                            .build()
+                            INSTANCE.applicationContext, UserDatabase::class.java, DB_NAME
+                        ).build()
                     }
                 }
             }
