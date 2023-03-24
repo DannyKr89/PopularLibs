@@ -22,7 +22,11 @@ class ProfileFragment : MvpAppCompatFragment(), ReposView {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private val adapter by lazy { ReposAdapter() }
-    private val presenter by moxyPresenter { App.INSTANCE.reposPresenter }
+    private val presenter by moxyPresenter {
+        ReposPresenter().apply {
+            App.INSTANCE.appComponent.inject(this)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

@@ -18,7 +18,11 @@ class UsersFragment : MvpAppCompatFragment(), UsersView {
     private var _binding: FragmentUsersBinding? = null
     private val binding get() = _binding!!
     private val adapter by lazy { UsersAdapter() }
-    private val presenter by moxyPresenter { App.INSTANCE.userPresenter }
+    private val presenter: UsersPresenter by moxyPresenter {
+        UsersPresenter().apply {
+            App.INSTANCE.appComponent.inject(this)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -28,7 +32,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView {
     }
 
     companion object {
-        fun newInstance() = UsersFragment()
+        fun newInstance() = UsersFragment().apply {
+            App.INSTANCE.appComponent.inject(this)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,7 +69,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView {
     override fun showUsers(users: List<GithubUser>) {
         adapter.setData(users)
         adapter.listener = {
-            App.INSTANCE.navigation.navigateToProfile(Bundle().apply {
+            presenter.navigateToProfile(Bundle().apply {
                 putParcelable("USER", it)
             })
 

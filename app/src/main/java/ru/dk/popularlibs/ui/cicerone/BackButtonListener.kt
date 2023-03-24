@@ -1,4 +1,4 @@
-package ru.dk.popularlibs.domain.cicerone
+package ru.dk.popularlibs.ui.cicerone
 
 interface BackButtonListener {
     fun backPressed(): Boolean

@@ -1,13 +1,28 @@
 package ru.dk.popularlibs.ui.users
 
 import android.annotation.SuppressLint
+import android.os.Bundle
+import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import moxy.MvpPresenter
 import ru.dk.popularlibs.domain.GithubUsersRepo
+import ru.dk.popularlibs.ui.cicerone.Screens
+import javax.inject.Inject
+import javax.inject.Named
 
-class UsersPresenter(private val usersRepo: GithubUsersRepo, private val uiThread: Scheduler) :
+class UsersPresenter() :
     MvpPresenter<UsersView>() {
+    @Inject
+    lateinit var usersRepo: GithubUsersRepo
+    @Named("main")
+    @Inject
+    lateinit var uiThread: Scheduler
+
+    @Inject
+    lateinit var router: Router
+    @Inject
+    lateinit var screens: Screens
 
 
     @SuppressLint("CheckResult")
@@ -25,5 +40,9 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val uiThrea
                     viewState.showProgressbar(false)
                 }
             )
+    }
+
+    fun navigateToProfile(bundle: Bundle) {
+        router.navigateTo(screens.profile(bundle))
     }
 }
