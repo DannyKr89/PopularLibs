@@ -4,15 +4,12 @@ import android.os.Bundle
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import moxy.MvpAppCompatActivity
 import moxy.MvpView
-import moxy.ktx.moxyPresenter
 import ru.dk.popularlibs.App
 import ru.dk.popularlibs.R
 import ru.dk.popularlibs.domain.cicerone.BackButtonListener
-import ru.dk.popularlibs.domain.cicerone.CiceronePresenter
 
 class MainActivity : MvpAppCompatActivity(), MvpView {
     private val navigator = AppNavigator(this, R.id.mainContainer)
-    private val presenter by moxyPresenter { CiceronePresenter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,12 +26,13 @@ class MainActivity : MvpAppCompatActivity(), MvpView {
         App.INSTANCE.navigatorHolder.removeNavigator()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         supportFragmentManager.fragments.forEach {
             if (it is BackButtonListener && it.backPressed()) {
                 return
             }
         }
-        presenter.backClick()
+        App.INSTANCE.navigation.backClick()
     }
 }

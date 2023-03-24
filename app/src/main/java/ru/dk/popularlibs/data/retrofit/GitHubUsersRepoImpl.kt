@@ -1,20 +1,20 @@
-package ru.dk.popularlibs.data
+package ru.dk.popularlibs.data.retrofit
 
 
+import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.dk.popularlibs.domain.GithubUser
 import ru.dk.popularlibs.domain.GithubUsersRepo
 import ru.dk.popularlibs.domain.cache.IRepositoriesCache
 import ru.dk.popularlibs.domain.cache.IUserCache
 import ru.dk.popularlibs.domain.network.INetworkStatus
-import ru.dk.popularlibs.domain.retrofit.UsersGitHubAPI
 
 class GitHubUsersRepoImpl(
     private val api: UsersGitHubAPI,
     private val roomUserCache: IUserCache,
     private val roomRepositoriesCache: IRepositoriesCache,
-    private val networkStatus: INetworkStatus
+    private val networkStatus: INetworkStatus,
+    private val ioThread: Scheduler
 ) : GithubUsersRepo {
 
     override fun getUsers() = networkStatus.isOnlineSingle().flatMap { isOnline ->
@@ -30,7 +30,7 @@ class GitHubUsersRepoImpl(
                 roomUserCache.getCachedUsers()
             }
         }
-    }.subscribeOn(Schedulers.io())
+    }.subscribeOn(ioThread)
 
     override fun getUsersRepo(user: GithubUser) =
         networkStatus.isOnlineSingle().flatMap { isOnline ->
@@ -48,5 +48,5 @@ class GitHubUsersRepoImpl(
                     roomRepositoriesCache.getCachedRepositories(user)
                 }
             }
-        }.subscribeOn(Schedulers.io())
+        }.subscribeOn(ioThread)
 }

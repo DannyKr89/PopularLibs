@@ -1,4 +1,4 @@
-package ru.dk.popularlibs.domain.retrofit
+package ru.dk.popularlibs.data.retrofit
 
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Retrofit
@@ -17,8 +17,8 @@ interface UsersGitHubAPI {
     fun getReposUrl(@Url url: String): Single<List<GithubUserReposItem>>
 
     companion object {
-        fun create(): UsersGitHubAPI {
-            val retrofit = Retrofit.Builder().baseUrl("https://api.github.com/")
+        fun create(baseUrl: String): UsersGitHubAPI {
+            val retrofit = Retrofit.Builder().baseUrl(baseUrl)
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()

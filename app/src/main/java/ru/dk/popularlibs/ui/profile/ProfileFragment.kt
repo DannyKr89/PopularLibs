@@ -21,8 +21,8 @@ class ProfileFragment : MvpAppCompatFragment(), ReposView {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private val adapter = ReposAdapter()
-    private val presenter by moxyPresenter { ReposPresenter(App.INSTANCE.usersRepo) }
+    private val adapter by lazy { ReposAdapter() }
+    private val presenter by moxyPresenter { App.INSTANCE.reposPresenter }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -31,6 +31,7 @@ class ProfileFragment : MvpAppCompatFragment(), ReposView {
         return binding.root
     }
 
+    @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val user = arguments?.getParcelable<GithubUser>("USER")

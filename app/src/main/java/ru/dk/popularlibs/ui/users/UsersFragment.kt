@@ -17,8 +17,8 @@ class UsersFragment : MvpAppCompatFragment(), UsersView {
 
     private var _binding: FragmentUsersBinding? = null
     private val binding get() = _binding!!
-    private val adapter = UsersAdapter()
-    private val presenter by moxyPresenter { UsersPresenter(App.INSTANCE.usersRepo) }
+    private val adapter by lazy { UsersAdapter() }
+    private val presenter by moxyPresenter { App.INSTANCE.userPresenter }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
