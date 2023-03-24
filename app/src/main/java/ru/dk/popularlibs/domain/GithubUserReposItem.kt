@@ -10,16 +10,17 @@ data class GithubUserReposItem(
     val createdAt: String,
     @SerializedName("default_branch")
     val defaultBranch: String,
-    val description: String,
+    val description: String?,
     val forks: Int,
-    val homepage: String,
+    val homepage: String?,
     @SerializedName("html_url")
     val htmlUrl: String,
-    val language: String,
+    val language: String?,
     val name: String,
     val size: Int,
     @SerializedName("updated_at")
     val updatedAt: String,
     val visibility: String,
-    val watchers: Int
+    val watchers: Int,
+    val id: Int
 ) : Parcelable

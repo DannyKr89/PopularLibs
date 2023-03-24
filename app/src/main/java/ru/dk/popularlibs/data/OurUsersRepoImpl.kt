@@ -29,7 +29,7 @@ class OurUsersRepoImpl : GithubUsersRepo {
 
     }
 
-    override fun getUsersRepo(url: String) = Single.create {
+    override fun getUsersRepo(user: GithubUser) = Single.create {
         it.onError(Throwable("Ошибка загрузки"))
         it.onSuccess(listOf<GithubUserReposItem>())
     }

@@ -4,14 +4,15 @@ import android.annotation.SuppressLint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import moxy.MvpPresenter
+import ru.dk.popularlibs.domain.GithubUser
 import ru.dk.popularlibs.domain.GithubUsersRepo
 
 class ReposPresenter(private val usersRepo: GithubUsersRepo) : MvpPresenter<ReposView>() {
 
     @SuppressLint("CheckResult")
-    fun loadData(url: String) {
+    fun loadData(user: GithubUser) {
         viewState.showProgressbar(true)
-        usersRepo.getUsersRepo(url)
+        usersRepo.getUsersRepo(user)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {
@@ -20,7 +21,6 @@ class ReposPresenter(private val usersRepo: GithubUsersRepo) : MvpPresenter<Repo
                 },
                 onError = {
                     viewState.showError(it)
-                    viewState.showRepos(listOf())
                     viewState.showProgressbar(false)
                 }
             )

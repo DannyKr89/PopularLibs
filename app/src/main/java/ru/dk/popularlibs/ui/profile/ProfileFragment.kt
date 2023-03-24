@@ -52,7 +52,7 @@ class ProfileFragment : MvpAppCompatFragment(), ReposView {
             tvUserId.text = "ID: ${githubUser.id}"
             tvUserLogin.text = "Login: ${githubUser.login}"
         }
-        presenter.loadData(githubUser.reposUrl)
+        presenter.loadData(githubUser)
     }
 
     companion object {

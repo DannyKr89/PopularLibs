@@ -3,9 +3,7 @@ package ru.dk.popularlibs.ui.counters
 import moxy.MvpPresenter
 import ru.dk.popularlibs.domain.CountersModel
 
-class CounterPresenter() : MvpPresenter<CountersView>() {
-
-    private val model = CountersModel()
+class CounterPresenter(private val model: CountersModel) : MvpPresenter<CountersView>() {
 
     fun getFirstCounter() = model.getCounter(0)
     fun getSecondCounter() = model.getCounter(1)
