@@ -1,7 +1,4 @@
-package ru.dk.popularlibs.domain.cache
-
-import ru.dk.popularlibs.domain.GithubUser
-import ru.dk.popularlibs.domain.GithubUserReposItem
+package ru.dk.popularlibs.domain
 
 interface IRepositoriesCache {
     fun cacheRepositories(user: GithubUser, repositories: List<GithubUserReposItem>)

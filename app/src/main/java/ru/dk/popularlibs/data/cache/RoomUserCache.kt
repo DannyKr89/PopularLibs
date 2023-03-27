@@ -1,6 +1,7 @@
-package ru.dk.popularlibs.domain.cache
+package ru.dk.popularlibs.data.cache
 
 import ru.dk.popularlibs.domain.GithubUser
+import ru.dk.popularlibs.domain.IUserCache
 import ru.dk.popularlibs.domain.room.RoomGithubUser
 import ru.dk.popularlibs.domain.room.UserDatabase
 
