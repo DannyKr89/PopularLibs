@@ -1,6 +1,4 @@
-package ru.dk.popularlibs.domain.cache
-
-import ru.dk.popularlibs.domain.GithubUser
+package ru.dk.popularlibs.domain
 
 interface IUserCache {
     fun cacheUsers(users: List<GithubUser>)

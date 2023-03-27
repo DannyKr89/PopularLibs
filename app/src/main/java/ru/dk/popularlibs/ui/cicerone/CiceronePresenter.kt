@@ -10,6 +10,7 @@ class CiceronePresenter() :
 
     @Inject
     lateinit var router: Router
+
     @Inject
     lateinit var screens: Screens
     override fun onFirstViewAttach() {

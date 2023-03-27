@@ -12,15 +12,16 @@ import moxy.ktx.moxyPresenter
 import ru.dk.popularlibs.App
 import ru.dk.popularlibs.databinding.FragmentUsersBinding
 import ru.dk.popularlibs.domain.GithubUser
+import ru.dk.popularlibs.ui.cicerone.BackButtonListener
 
-class UsersFragment : MvpAppCompatFragment(), UsersView {
+class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     private var _binding: FragmentUsersBinding? = null
     private val binding get() = _binding!!
     private val adapter by lazy { UsersAdapter() }
     private val presenter: UsersPresenter by moxyPresenter {
         UsersPresenter().apply {
-            App.INSTANCE.appComponent.inject(this)
+            App.INSTANCE.initUsersSubcomponent().inject(this)
         }
     }
 
@@ -32,9 +33,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView {
     }
 
     companion object {
-        fun newInstance() = UsersFragment().apply {
-            App.INSTANCE.appComponent.inject(this)
-        }
+        fun newInstance() = UsersFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,8 +53,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         _binding = null
+        App.INSTANCE.endUserScope()
+        super.onDestroy()
     }
 
     override fun showProgressbar(inProgress: Boolean) {
@@ -79,4 +79,6 @@ class UsersFragment : MvpAppCompatFragment(), UsersView {
     override fun showError(throwable: Throwable) {
         Toast.makeText(requireContext(), throwable.message, Toast.LENGTH_SHORT).show()
     }
+
+    override fun backPressed() = presenter.backPressed()
 }

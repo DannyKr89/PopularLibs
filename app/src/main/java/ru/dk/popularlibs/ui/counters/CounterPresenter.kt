@@ -13,6 +13,7 @@ class CounterPresenter() : MvpPresenter<CountersView>() {
 
     @Inject
     lateinit var router: Router
+
     @Inject
     lateinit var screens: Screens
 

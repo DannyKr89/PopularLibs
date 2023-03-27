@@ -5,8 +5,6 @@ import dagger.Component
 import ru.dk.popularlibs.ui.MainActivity
 import ru.dk.popularlibs.ui.cicerone.CiceronePresenter
 import ru.dk.popularlibs.ui.counters.CounterPresenter
-import ru.dk.popularlibs.ui.profile.ReposPresenter
-import ru.dk.popularlibs.ui.users.UsersPresenter
 import javax.inject.Singleton
 
 @Singleton
@@ -14,17 +12,17 @@ import javax.inject.Singleton
     modules = [
         CiceroneModule::class,
         ApiModule::class,
-        RepoModule::class,
+        DatabaseModule::class,
         CountersModule::class,
         AppModule::class
     ]
 )
 interface AppComponent {
 
+    fun usersSubcomponent(): UsersSubcomponent
+    fun repositoriesSubcomponent(): RepositorySubcomponent
     fun inject(mainActivity: MainActivity)
     fun inject(fragment: Fragment)
-    fun inject(usersPresenter: UsersPresenter)
-    fun inject(reposPresenter: ReposPresenter)
     fun inject(ciceronePresenter: CiceronePresenter)
     fun inject(counterPresenter: CounterPresenter)
 }
