@@ -69,10 +69,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     override fun showUsers(users: List<GithubUser>) {
         adapter.setData(users)
         adapter.listener = {
-            presenter.navigateToProfile(Bundle().apply {
-                putParcelable("USER", it)
-            })
-
+            presenter.navigateToProfile(it)
         }
     }
 

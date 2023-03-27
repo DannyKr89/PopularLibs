@@ -1,14 +1,18 @@
 package ru.dk.popularlibs
 
 import android.app.Application
-import ru.dk.popularlibs.di.*
+import ru.dk.popularlibs.di.AppComponent
+import ru.dk.popularlibs.di.AppModule
+import ru.dk.popularlibs.di.DaggerAppComponent
+import ru.dk.popularlibs.di.repository.RepositorySubcomponent
+import ru.dk.popularlibs.di.users.UsersSubcomponent
 import javax.inject.Inject
 
 class App : Application() {
     @Inject
     lateinit var appComponent: AppComponent
-    var usersSubcomponent: UsersSubcomponent? = null
-    var repositorySubcomponent: RepositorySubcomponent? = null
+    private var usersSubcomponent: UsersSubcomponent? = null
+    private var repositorySubcomponent: RepositorySubcomponent? = null
 
     override fun onCreate() {
         super.onCreate()

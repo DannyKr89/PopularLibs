@@ -1,8 +1,8 @@
 package ru.dk.popularlibs.ui.profile
 
-import android.annotation.SuppressLint
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import moxy.MvpPresenter
 import ru.dk.popularlibs.domain.GithubRepositoriesRepo
@@ -23,10 +23,11 @@ class ReposPresenter() :
     @Inject
     lateinit var router: Router
 
-    @SuppressLint("CheckResult")
+    private var repos: Disposable? = null
+
     fun loadData(user: GithubUser) {
         viewState.showProgressbar(true)
-        repositoriesRepo.getUsersRepo(user).observeOn(uiThread).subscribeBy(
+        repos = repositoriesRepo.getUsersRepo(user).observeOn(uiThread).subscribeBy(
             onSuccess = {
                 viewState.showRepos(it)
                 viewState.showProgressbar(false)
@@ -38,6 +39,7 @@ class ReposPresenter() :
 
     override fun backPressed(): Boolean {
         router.exit()
+        repos?.dispose()
         return true
     }
 }

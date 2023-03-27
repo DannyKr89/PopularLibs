@@ -39,7 +39,7 @@ class ProfileFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
     @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val user = arguments?.getParcelable<GithubUser>("USER")
+        val user = arguments?.getParcelable<GithubUser>(GITHUB_USER)
         if (user != null) renderData(user)
         initViews()
     }
@@ -62,9 +62,11 @@ class ProfileFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
     }
 
     companion object {
-
-        fun newInstance(args: Bundle) = ProfileFragment().apply {
-            arguments = args
+        private const val GITHUB_USER = "GITHUB_USER"
+        fun newInstance(githubUser: GithubUser) = ProfileFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(GITHUB_USER, githubUser)
+            }
         }
     }
 

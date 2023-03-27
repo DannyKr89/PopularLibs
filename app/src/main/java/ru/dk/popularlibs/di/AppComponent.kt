@@ -2,6 +2,8 @@ package ru.dk.popularlibs.di
 
 import androidx.fragment.app.Fragment
 import dagger.Component
+import ru.dk.popularlibs.di.repository.RepositorySubcomponent
+import ru.dk.popularlibs.di.users.UsersSubcomponent
 import ru.dk.popularlibs.ui.MainActivity
 import ru.dk.popularlibs.ui.cicerone.CiceronePresenter
 import ru.dk.popularlibs.ui.counters.CounterPresenter

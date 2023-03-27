@@ -1,11 +1,11 @@
 package ru.dk.popularlibs.ui.users
 
-import android.annotation.SuppressLint
-import android.os.Bundle
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import moxy.MvpPresenter
+import ru.dk.popularlibs.domain.GithubUser
 import ru.dk.popularlibs.domain.GithubUsersRepo
 import ru.dk.popularlibs.ui.cicerone.BackButtonListener
 import ru.dk.popularlibs.ui.cicerone.Screens
@@ -28,11 +28,12 @@ class UsersPresenter() :
     @Inject
     lateinit var screens: Screens
 
+    private var users: Disposable? = null
 
-    @SuppressLint("CheckResult")
+
     fun loadData() {
         viewState.showProgressbar(true)
-        usersRepo.getUsers()
+        users = usersRepo.getUsers()
             .observeOn(uiThread)
             .subscribeBy(
                 onSuccess = {
@@ -46,8 +47,14 @@ class UsersPresenter() :
             )
     }
 
-    fun navigateToProfile(bundle: Bundle) {
-        router.navigateTo(screens.profile(bundle))
+    fun navigateToProfile(githubUser: GithubUser) {
+        router.navigateTo(screens.profile(githubUser))
+    }
+
+    override fun backPressed(): Boolean {
+        router.exit()
+        users?.dispose()
+        return true
     }
 
     override fun backPressed(): Boolean {
