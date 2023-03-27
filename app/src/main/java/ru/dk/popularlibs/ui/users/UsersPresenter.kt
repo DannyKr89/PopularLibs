@@ -56,9 +56,4 @@ class UsersPresenter() :
         users?.dispose()
         return true
     }
-
-    override fun backPressed(): Boolean {
-        router.exit()
-        return true
-    }
 }
