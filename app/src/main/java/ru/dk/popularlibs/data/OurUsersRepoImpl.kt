@@ -1,11 +1,12 @@
 package ru.dk.popularlibs.data
 
 import io.reactivex.rxjava3.core.Single
+import ru.dk.popularlibs.domain.GithubRepositoriesRepo
 import ru.dk.popularlibs.domain.GithubUser
 import ru.dk.popularlibs.domain.GithubUserReposItem
 import ru.dk.popularlibs.domain.GithubUsersRepo
 
-class OurUsersRepoImpl : GithubUsersRepo {
+class OurUsersRepoImpl : GithubUsersRepo, GithubRepositoriesRepo {
     private val data: List<GithubUser> = listOf(
         GithubUser("mojombo", 1, "https://avatars.githubusercontent.com/u/1?v=4"),
         GithubUser("defunkt", 2, "https://avatars.githubusercontent.com/u/2?v=4"),

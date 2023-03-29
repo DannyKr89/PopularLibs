@@ -1,4 +1,4 @@
-package ru.dk.popularlibs.domain.cicerone
+package ru.dk.popularlibs.ui.cicerone
 
 import android.os.Bundle
 import com.github.terrakok.cicerone.Screen

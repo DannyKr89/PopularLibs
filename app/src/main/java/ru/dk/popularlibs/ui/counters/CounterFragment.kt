@@ -8,13 +8,17 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.dk.popularlibs.App
 import ru.dk.popularlibs.databinding.FragmentCounterBinding
-import ru.dk.popularlibs.domain.CountersModel
+import ru.dk.popularlibs.ui.cicerone.CiceronePresenter
 
 class CounterFragment : MvpAppCompatFragment(), CountersView {
 
     private var _binding: FragmentCounterBinding? = null
     private val binding: FragmentCounterBinding get() = _binding!!
-    private val presenter by moxyPresenter { CounterPresenter(CountersModel()) }
+    private val presenter by moxyPresenter {
+        CounterPresenter().apply {
+            App.INSTANCE.appComponent.inject(this)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +31,9 @@ class CounterFragment : MvpAppCompatFragment(), CountersView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        App.INSTANCE.appComponent.inject(CiceronePresenter().apply {
+            App
+        })
 
         with(binding) {
             btnFirstCounter.setOnClickListener { presenter.firstCounterClick() }
@@ -41,7 +48,7 @@ class CounterFragment : MvpAppCompatFragment(), CountersView {
             btnFirstCounter.text = presenter.getFirstCounter().toString()
             btnSecondCounter.text = presenter.getSecondCounter().toString()
             btnThirdCounter.text = presenter.getThirdCounter().toString()
-            btnUsers.setOnClickListener { App.INSTANCE.navigation.navigateToUsers() }
+            btnUsers.setOnClickListener { presenter.navigateToUsers() }
         }
     }
 

@@ -14,15 +14,20 @@ import ru.dk.popularlibs.App
 import ru.dk.popularlibs.databinding.FragmentProfileBinding
 import ru.dk.popularlibs.domain.GithubUser
 import ru.dk.popularlibs.domain.GithubUserReposItem
+import ru.dk.popularlibs.ui.cicerone.BackButtonListener
 import ru.dk.popularlibs.ui.repository.RepoDialogFragment
 
-class ProfileFragment : MvpAppCompatFragment(), ReposView {
+class ProfileFragment : MvpAppCompatFragment(), ReposView, BackButtonListener {
 
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private val adapter = ReposAdapter()
-    private val presenter by moxyPresenter { ReposPresenter(App.INSTANCE.usersRepo) }
+    private val adapter by lazy { ReposAdapter() }
+    private val presenter by moxyPresenter {
+        ReposPresenter().apply {
+            App.INSTANCE.initRepositoriesSubcomponent().inject(this)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -31,6 +36,7 @@ class ProfileFragment : MvpAppCompatFragment(), ReposView {
         return binding.root
     }
 
+    @Suppress("DEPRECATION")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val user = arguments?.getParcelable<GithubUser>("USER")
@@ -63,7 +69,10 @@ class ProfileFragment : MvpAppCompatFragment(), ReposView {
     }
 
     override fun showProgressbar(inProgress: Boolean) {
-        //
+        if (inProgress)
+            Toast.makeText(requireContext(), "Загружаю Репозитории", Toast.LENGTH_SHORT).show()
+        else
+            Toast.makeText(requireContext(), "Готово", Toast.LENGTH_SHORT).show()
     }
 
     override fun showRepos(reposItem: List<GithubUserReposItem>) {
@@ -78,4 +87,12 @@ class ProfileFragment : MvpAppCompatFragment(), ReposView {
     override fun showError(throwable: Throwable) {
         Toast.makeText(requireContext(), throwable.message, Toast.LENGTH_SHORT).show()
     }
+
+    override fun onDestroy() {
+        _binding = null
+        App.INSTANCE.endRepositoriesScope()
+        super.onDestroy()
+    }
+
+    override fun backPressed() = presenter.backPressed()
 }
