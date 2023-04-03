@@ -1,5 +1,7 @@
 package ru.dk.popularlibs.domain
 
+import io.reactivex.rxjava3.core.Single
+
 interface GithubUsersRepo {
-    fun getUsers(onSuccess: (List<GithubUser>) -> Unit, onError: ((Throwable) -> Unit)?)
+    fun getUsers(): Single<List<GithubUser>>
 }

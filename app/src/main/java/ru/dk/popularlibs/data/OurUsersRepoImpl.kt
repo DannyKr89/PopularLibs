@@ -1,8 +1,6 @@
 package ru.dk.popularlibs.data
 
-import android.os.Handler
-import android.os.Looper
-import androidx.core.os.postDelayed
+import io.reactivex.rxjava3.core.Single
 import ru.dk.popularlibs.domain.GithubUser
 import ru.dk.popularlibs.domain.GithubUsersRepo
 
@@ -21,13 +19,6 @@ class OurUsersRepoImpl : GithubUsersRepo {
         GithubUser("kevinclark", 11, "https://avatars.githubusercontent.com/u/20?v=4"),
     )
 
-    override fun getUsers(onSuccess: (List<GithubUser>) -> Unit, onError: ((Throwable) -> Unit)?) {
-        Handler(Looper.getMainLooper()).postDelayed(2000) {
-            if ((0..3).random() == 1) {
-                onError?.invoke(Throwable("Ошибочка"))
-            } else {
-                onSuccess(data)
-            }
-        }
-    }
+    override fun getUsers() = Single.just(data)
 }
+
