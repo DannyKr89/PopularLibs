@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -36,8 +38,20 @@ android {
 }
 
 dependencies {
+    //Coil
+    implementation 'io.coil-kt:coil:2.1.0'
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    //Cicerone
+    implementation 'com.github.terrakok:cicerone:7.1'
+
+    //Moxy
+    implementation "com.github.moxy-community:moxy:2.2.2"
+    implementation "com.github.moxy-community:moxy-ktx:2.2.2"
+    implementation "com.github.moxy-community:moxy-androidx:2.2.2"
+    implementation "com.github.moxy-community:moxy-android:2.2.2"
+    kapt "com.github.moxy-community:moxy-compiler:2.1.1"
+
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
