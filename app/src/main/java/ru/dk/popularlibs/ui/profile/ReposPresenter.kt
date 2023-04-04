@@ -1,4 +1,4 @@
-package ru.dk.popularlibs.ui.users
+package ru.dk.popularlibs.ui.profile
 
 import android.annotation.SuppressLint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -6,22 +6,21 @@ import io.reactivex.rxjava3.kotlin.subscribeBy
 import moxy.MvpPresenter
 import ru.dk.popularlibs.domain.GithubUsersRepo
 
-class UsersPresenter(private val usersRepo: GithubUsersRepo) : MvpPresenter<UsersView>() {
-
+class ReposPresenter(private val usersRepo: GithubUsersRepo) : MvpPresenter<ReposView>() {
 
     @SuppressLint("CheckResult")
-    fun loadData() {
+    fun loadData(url: String) {
         viewState.showProgressbar(true)
-        usersRepo.getUsers()
+        usersRepo.getUsersRepo(url)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {
-                    viewState.showUsers(it)
+                    viewState.showRepos(it)
                     viewState.showProgressbar(false)
                 },
                 onError = {
                     viewState.showError(it)
-                    viewState.showUsers(listOf())
+                    viewState.showRepos(listOf())
                     viewState.showProgressbar(false)
                 }
             )

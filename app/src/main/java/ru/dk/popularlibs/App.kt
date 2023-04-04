@@ -3,7 +3,7 @@ package ru.dk.popularlibs
 import android.app.Application
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
-import ru.dk.popularlibs.data.OurUsersRepoImpl
+import ru.dk.popularlibs.data.GitHubUsersRepoImpl
 import ru.dk.popularlibs.domain.GithubUsersRepo
 import ru.dk.popularlibs.domain.cicerone.CiceronePresenter
 
@@ -16,7 +16,7 @@ class App : Application() {
     val navigatorHolder get() = cicerone.getNavigatorHolder()
     val navigation get() = CiceronePresenter()
 
-    val usersRepo: GithubUsersRepo by lazy { OurUsersRepoImpl() }
+    val usersRepo: GithubUsersRepo by lazy { GitHubUsersRepoImpl() }
 
     override fun onCreate() {
         super.onCreate()

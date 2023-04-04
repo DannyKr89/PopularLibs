@@ -5,4 +5,16 @@
     <string name="third_counter">Счетчик 3</string>
     <string name="github_users">Список пользователей Гитхаб</string>
     <string name="btn_refresh">Обновить</string>
+    <string name="forks">Forks:</string>
+    <string name="name">Name:</string>
+    <string name="html">Html:</string>
+    <string name="default_branch">Default branch:</string>
+    <string name="description">Description:</string>
+    <string name="home_page">Home page:</string>
+    <string name="size">Size:</string>
+    <string name="language">Language:</string>
+    <string name="visibility">Visibility:</string>
+    <string name="watchers">Watchers:</string>
+    <string name="created_at">Created at:</string>
+    <string name="updated_at">Updated at:</string>
 </resources>

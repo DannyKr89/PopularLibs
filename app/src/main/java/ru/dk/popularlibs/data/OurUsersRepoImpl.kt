@@ -2,6 +2,7 @@ package ru.dk.popularlibs.data
 
 import io.reactivex.rxjava3.core.Single
 import ru.dk.popularlibs.domain.GithubUser
+import ru.dk.popularlibs.domain.GithubUserReposItem
 import ru.dk.popularlibs.domain.GithubUsersRepo
 
 class OurUsersRepoImpl : GithubUsersRepo {
@@ -19,6 +20,18 @@ class OurUsersRepoImpl : GithubUsersRepo {
         GithubUser("kevinclark", 11, "https://avatars.githubusercontent.com/u/20?v=4"),
     )
 
-    override fun getUsers() = Single.just(data)
+    override fun getUsers() = Single.create {
+        if ((0..2).random() == 2) {
+            it.onError(Throwable("Ошибка загрузки"))
+        } else {
+            it.onSuccess(data)
+        }
+
+    }
+
+    override fun getUsersRepo(url: String) = Single.create {
+        it.onError(Throwable("Ошибка загрузки"))
+        it.onSuccess(listOf<GithubUserReposItem>())
+    }
 }
 
